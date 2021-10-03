@@ -67,9 +67,9 @@ router.get("/offers", async (req, res) => {
         path: "owner",
         select: "account",
       })
-      .sort(sort)
-      .skip((page - 1) * limit) // ignore the x results
-      .limit(limit); // return y results
+      .sort(sort);
+    // .skip((page - 1) * limit) // ignore the x results
+    // .limit(limit); // return y results
 
     // this line will return the number of ads found according to the filters
     const count = await Offer.countDocuments(filters);
@@ -106,7 +106,7 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
 
     console.log(req.fields);
 
-    if (title && price && req.files.picture.path) {
+    if (title && price) {
       // Creation of the new ad (without the image)
       const newOffer = new Offer({
         product_name: title,
@@ -122,19 +122,19 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
         owner: req.user,
       });
 
-      // Send the image to cloudinary
-      const result = await cloudinary.uploader.unsigned_upload(
-        req.files.picture.path,
-        "vinted_upload",
-        {
-          folder: `api/vinted/offers/${newOffer._id}`,
-          public_id: "preview",
-          cloud_name: "lereacteur",
-        }
-      );
+      // // Send the image to cloudinary
+      // const result = await cloudinary.uploader.upload(
+      //   req.files.picture.path,
+      //   "vinted_upload",
+      //   {
+      //     folder: `api/vinted/offers/${newOffer._id}`,
+      //     public_id: "preview",
+      //     cloud_name: "dzceds5rc",
+      //   }
+      // );
 
-      // add the image in newOffer
-      newOffer.product_image = result;
+      // // add the image in newOffer
+      // newOffer.product_image = result;
 
       await newOffer.save();
 

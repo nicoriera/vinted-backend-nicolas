@@ -17,18 +17,18 @@ mongoose.connect("mongodb://localhost/vinted", {
   useUnifiedTopology: true,
 });
 
-db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function () {
-  console.log("connecté à Mongoose");
-});
-
 // Connection to the cloudinary storage space
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {
+  console.log("connecté à Mongoose");
 });
 
 const userRoutes = require("./routes/user");
