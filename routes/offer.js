@@ -14,10 +14,6 @@ const Offer = require("../models/Offer");
 // Import middleware isAuthenticated
 const isAuthenticated = require("../middleware/isAuthenticated");
 
-// Import data (do not take it into account, it is used to reset the database between 2 training sessions)
-const products = require("../data/products.json");
-const goScrapp = require("../middleware/scrapping");
-
 // Route that allows us to get a list of ads, according to filters
 // If no filter is sent, this route will return all the ads
 router.get("/offers", async (req, res) => {
@@ -122,21 +118,20 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
         owner: req.user,
       });
 
-      // // Send the image to cloudinary
-      // const result = await cloudinary.uploader.upload(
-      //   req.files.picture.path,
-      //   "vinted_upload",
-      //   {
-      //     folder: `api/vinted/offers/${newOffer._id}`,
-      //     public_id: "preview",
-      //     cloud_name: "dzceds5rc",
-      //   }
-      // );
+      // Send the image to cloudinary
+      const result = await cloudinary.uploader.upload(req.files.picture.path, {
+        folder: `api/vinted/offers/${newOffer._id}`,
+        public_id: "vintedpicture",
+        function(error, result) {
+          console.log(result, error);
+        },
+      });
 
-      // // add the image in newOffer
-      // newOffer.product_image = result;
+      // add the image in newOffer
+      newOffer.product_image = result;
 
       await newOffer.save();
+      console.log(newOffer);
 
       res.json(newOffer);
     } else {
