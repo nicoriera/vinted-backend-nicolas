@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const createStripe = require("stripe");
+const Stripe = require("stripe");
 const formidableMiddleware = require("express-formidable");
 router.use(formidableMiddleware());
 
-const stripe = createStripe(process.env.STRIPE_API_SECRET);
+const stripe = Stripe(process.env.STRIPE_API_SECRET);
 
 // we receive the token
 router.post("/payment", async (req, res) => {
