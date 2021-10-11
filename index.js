@@ -11,7 +11,7 @@ app.use(cors());
 
 require("dotenv").config();
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/vinted", {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -49,6 +49,6 @@ app.all("*", (req, res) => {
   res.status(404).send({ message: "Page not found" });
 });
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(process.env.PORT, () => {
   console.log("Server started");
 });

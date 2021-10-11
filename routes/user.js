@@ -9,9 +9,6 @@ const uid2 = require("uid2");
 const SHA256 = require("crypto-js/sha256");
 const encBase64 = require("crypto-js/enc-base64");
 
-// Import of the cloudinary package
-const cloudinary = require("cloudinary").v2;
-
 // Import the User and Offer model
 // to avoid errors (especially due to possible references between collections)
 //
