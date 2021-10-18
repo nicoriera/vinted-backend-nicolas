@@ -56,7 +56,10 @@ router.post("/user/signup", async (req, res) => {
         // Step 3: save this new user in the database
         await newUser.save();
         res.status(200).json({
-          newUser,
+          _id: newUser._id,
+          email: newUser.email,
+          token: newUser.token,
+          account: newUser.account,
         });
         console.log(newUser);
       } else {
